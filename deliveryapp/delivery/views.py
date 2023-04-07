@@ -5,22 +5,22 @@ from .serializers import UserSerializer, ProductSerializer, OrderSerializer, Ord
 from rest_framework.parsers import MultiPartParser
 
 
-class ProductViewSet(viewsets.ViewSet, generics.ListAPIView):
-    queryset = Product.objects.filter(active=True)
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.filter()
     serializer_class = ProductSerializer
 
 
-class OrderViewSet(viewsets.ViewSet, generics.ListAPIView):
+class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.filter(active=True)
     serializer_class = OrderSerializer
 
 
-class OrderDetailViewSet(viewsets.ViewSet, generics.ListAPIView):
+class OrderDetailViewSet(viewsets.ModelViewSet):
     queryset = OrderDetail.objects.filter(active=True)
     serializer_class = OrderDetailSerializer
 
 
-class AuctionViewSet(viewsets.ViewSet, generics.ListAPIView):
+class AuctionViewSet(viewsets.ModelViewSet):
     queryset = Auction.objects.filter(active=True)
     serializer_class = AuctionSerializer
 

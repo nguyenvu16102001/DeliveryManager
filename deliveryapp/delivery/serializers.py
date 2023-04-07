@@ -28,7 +28,7 @@ class OrderDetailSerializer(ModelSerializer):
 
 class AuctionSerializer(ModelSerializer):
     class Meta:
-        model = OrderDetail
+        model = Auction
         fields = ['order', 'shipper', 'auction_price']
 
 
