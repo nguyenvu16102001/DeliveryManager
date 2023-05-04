@@ -1,5 +1,3 @@
-import parser
-
 from django.core.exceptions import ObjectDoesNotExist
 
 from django.core.mail import send_mail
