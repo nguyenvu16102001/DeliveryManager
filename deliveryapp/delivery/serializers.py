@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import User, Product, Order, OrderDetail, Auction, Shipper, Rating
+from .models import User, Product, Order, OrderDetail, Auction, Shipper, Rating, Customer
 
 
 class ProductSerializer(ModelSerializer):
@@ -30,6 +30,12 @@ class ShipperSerializer(ModelSerializer):
     class Meta:
         model = Shipper
         fields = ['shipper', 'starting_date']
+
+
+class CustomerSerializer(ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = ['customer', 'membership_level']
 
 
 class UserSerializer(ModelSerializer):

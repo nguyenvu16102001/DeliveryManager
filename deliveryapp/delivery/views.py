@@ -7,7 +7,7 @@ from rest_framework import viewsets, generics, permissions, status
 from .models import User, Product, Order, OrderDetail, Auction, Shipper, Rating, Customer
 from .perms import RatingOwner
 from .serializers import UserSerializer, ProductSerializer, OrderSerializer, OrderDetailSerializer, \
-    AuctionSerializer, ShipperSerializer, CommentSerializer, RateSerializer, RatingSerializer
+    AuctionSerializer, ShipperSerializer, CommentSerializer, RateSerializer, RatingSerializer, CustomerSerializer
 from rest_framework.parsers import MultiPartParser
 
 import logging
@@ -35,7 +35,12 @@ class AuctionViewSet(viewsets.ModelViewSet):
     serializer_class = AuctionSerializer
 
 
-class ShipperViewSet(viewsets.ViewSet, generics.ListAPIView):
+class CustomerViewSet(viewsets.ModelViewSet):
+    queryset = Customer.objects.filter(active=True)
+    serializer_class = CustomerSerializer
+
+
+class ShipperViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
     queryset = Shipper.objects.filter(active=True)
     serializer_class = ShipperSerializer
 
@@ -75,16 +80,20 @@ class RatingViewSet(viewsets.ViewSet, generics.ListAPIView, generics.DestroyAPIV
         return [permissions.AllowAny()]
 
 
-class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAPIView, generics.UpdateAPIView):
+class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
     parser_classes = [MultiPartParser, ]
 
     def get_permissions(self):
-        if self.action == 'retrieve':
+        if self.action == 'current_user':
             return [permissions.IsAuthenticated()]
         else:
             return [permissions.AllowAny()]
+
+    @action(methods=['get'], detail=False, url_path='current-user')
+    def current_user(self, request):
+        return Response(self.serializer_class(request.user).data)
 
     @action(methods=['get'], detail=True, url_path="send-mail", url_name="send-mail")
     def send_mail_async(self, request, pk):
