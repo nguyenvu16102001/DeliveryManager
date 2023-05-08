@@ -99,9 +99,21 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.UpdateAPIVi
     def send_mail_async(self, request, pk):
         try:
             user = User.objects.get(pk=pk)
+            type = request.data['type']
+            title = ''
+            content = ''
+            if type == 'auction_win':
+                title = 'Dau Gia Thanh Cong'
+                content = 'Ban da duoc chon de giao don hang'
+            elif type == 'auction_lose':
+                title = 'Dau Gia That Bai'
+                content = 'Ban khong duoc chon de giao don hang'
+            elif type == 'order':
+                title = 'Hoan Thanh Don Hang'
+                content = 'Don hang cua ban da duoc giao thanh cong'
             send_mail(
-                'Thong bao don hang',
-                'Don hang cua ban da hoan thanh.',
+                title,
+                content,
                 '1951012152vu@ou.edu.vn',
                 [user.email],
                 fail_silently=False,

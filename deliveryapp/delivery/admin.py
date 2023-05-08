@@ -2,7 +2,7 @@ from django.db.models.functions import Extract
 
 from django.contrib import admin
 from django.template.response import TemplateResponse
-from .models import Shipper, Customer, Order, User, Product, OrderDetail
+from .models import Shipper, Customer, Order, User, Product, OrderDetail, Coupon, CustomerCoupon
 from django.utils.html import mark_safe
 from django.urls import path
 from django.db.models import Sum, Count
@@ -54,4 +54,6 @@ admin_site.register(Shipper)
 admin_site.register(Customer)
 admin_site.register(Order, OrderAdmin)
 admin_site.register(Product)
+admin_site.register(Coupon)
+admin_site.register(CustomerCoupon)
 

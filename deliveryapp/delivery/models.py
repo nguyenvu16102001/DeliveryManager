@@ -37,7 +37,7 @@ class Rating(BaseModel):
     customer = models.ForeignKey(Customer, on_delete=models.RESTRICT)
     shipper = models.ForeignKey(Shipper, on_delete=models.RESTRICT)
     rate = models.IntegerField(default=5)
-    comment = models.TextField(max_length=255)
+    comment = models.TextField(max_length=255, null=True)
 
 
 class Product(BaseModel):
@@ -55,7 +55,7 @@ class Order(BaseModel):
     delivery_address = models.TextField(max_length=255, null=False)
     state = models.TextField(max_length=255, choices=(('draft', 'Draft'), ('auction', 'Auction'), ('waiting', 'Waiting'), ('shipped', 'Shipped'), ('done', 'Done')))
     delivery_date = models.DateTimeField()
-    description = models.TextField(max_length=255)
+    description = models.TextField(max_length=255, null=True)
 
 
 class OrderDetail(BaseModel):
@@ -83,4 +83,6 @@ class CustomerCoupon(BaseModel):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE)
     usage_limit = models.IntegerField(default=0)
+    start_date = models.DateTimeField(default=datetime.now())
+    end_date = models.DateTimeField(default=datetime.strptime('01/01/2024', '%d/%M/%Y'))
 

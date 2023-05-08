@@ -54,7 +54,7 @@
     {% for ds in delivery_stats %}
         lables.push('{{ ds.delivery_date__month }}')
         data1.push({{ ds.count }})
-        data2.push({{ q.total }})
+        data2.push({{ ds.total }})
         r = Math.random()*255
         g = Math.random()*255
         b = Math.random()*255
